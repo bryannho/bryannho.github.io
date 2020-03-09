@@ -135,6 +135,58 @@
 
 </style>
 
+<script>
+$(function() {
+$(".carousel").on("slide.bs.carousel", function(e) {
+  var prev = $(this)
+    .find(".active")
+    .index();
+  var next = $(e.relatedTarget).index();
+  var video = $("#video-player")[0];
+  var videoSlide = $("#video-player")
+    .closest(".carousel-item")
+    .index();
+  if (next === videoSlide) {
+    if (video.tagName == "IFRAME") {
+      player.playVideo();
+    } else {
+      createVideo(video);
+    }
+  } else {
+    if (typeof player !== "undefined") {
+      player.pauseVideo();
+    }
+  }
+});
+});
+
+function createVideo(video) {
+var youtubeScriptId = "youtube-api";
+var youtubeScript = document.getElementById(youtubeScriptId);
+var videoId = video.getAttribute("data-video-id");
+
+if (youtubeScript === null) {
+  var tag = document.createElement("script");
+  var firstScript = document.getElementsByTagName("script")[0];
+
+  tag.src = "https://www.youtube.com/iframe_api";
+  tag.id = youtubeScriptId;
+  firstScript.parentNode.insertBefore(tag, firstScript);
+}
+
+window.onYouTubeIframeAPIReady = function() {
+  window.player = new window.YT.Player(video, {
+    videoId: videoId,
+    playerVars: {
+      autoplay: 1,
+      modestbranding: 1,
+      rel: 0
+    }
+  });
+};
+}
+</script>
+
 </head>
 
 <body data-spy="scroll" data-target="#main-nav">
@@ -149,9 +201,11 @@
 				<li class="nav-item">
 	        <a class="nav-link" href="#p2"> career <span class="sr-only">(current)</span></a>
 	      </li>
+        <!--
 				<li class="nav-item">
 	        <a class="nav-link" href="#p3"> dance </a>
 	      </li>
+      -->
 				<li class="nav-item">
 	        <a class="nav-link" href="#p4"> contact </a>
 	      </li>
@@ -169,16 +223,15 @@
     			<h3 class="lead"> about me </h3>
     			<p> I am a 19 year-old aspiring software engineer.
     				I currently attend the University of Southern
-    				California, and am set to graduate in 2022.
-    				Aside from coding, I have a passion for hip-hop
-    				dance. I currently serve as a dancer and
-    				choreographer on Chaotic 3, a dance team based
-    				out of USC.
+    				California, and am set to graduate in Spring 2022.
+            Click below to see my resume!
     			</p>
+          <button type="button" class="btn btn-outline-primary" href="resume.pdf" target="_blank">Resume</button>
         </div>
         <div class="align-right col-lg-4">
           <img src="Images/profile.png" alt="profile picture" class="img-fluid float-md-right"style="width:300px;height:300px;">
         </div>
+
       </div>
 		</div>
 	</div>
@@ -307,6 +360,7 @@
 	</div>
 </div>
 
+<!--
 <div id="p3">
 	<div class="container page">
 		<h2> dance </h2>
@@ -396,10 +450,9 @@
 
 				<div class="carousel-inner">
 					<div class="carousel-item active">
-						<video class="d-block w-100"  controls>
-							<source src="videos/beautiful-girls.mp4" type="video/mp4">
-						</video>
-						<div class="carousel-caption d-none ">
+            <div class="carousel-video-inner">
+              <div id="video-player" data-video-id="0vrdgDdPApQ"></div>
+            </div>
 							<h4> beautiful girls - sean kingston </h4>
 							<p> collaboration with justin he.
 								performed at fusion XIX.
@@ -408,9 +461,7 @@
 					</div>
 
 					<div class="carousel-item">
-						<video class="d-block w-100" controls>
-							<source src="videos/chopped-n-screwed.mp4" type="video/mp4">
-						</video>
+						<iframe width="654" height="368" src="https://www.youtube.com/embed/OA9zM9xrfOQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 						<div class="carousel-caption d-none ">
 							<h4> chopped n screwed - t-pain </h4>
 							<p> collaboration with nick tanga.
@@ -433,6 +484,7 @@
 		</div>
 	</div>
 </div>
+-->
 
 <div id="p4">
 	<div class="container page">
